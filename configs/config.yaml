@@ -1,0 +1,66 @@
+# Configuration for Time Series Forecasting Project
+
+# Data Configuration
+data:
+  symbols: ["AAPL", "MSFT", "GOOGL", "TSLA", "AMZN"]
+  start_date: "2015-01-01"
+  end_date: "2023-12-31"
+  features: ["Open", "High", "Low", "Close", "Volume"]
+  target: "Close"
+  
+# Model Configuration
+models:
+  arima:
+    order: [5, 1, 0]
+    seasonal_order: [0, 0, 0, 0]
+  
+  lstm:
+    sequence_length: 60
+    hidden_size: 50
+    num_layers: 2
+    dropout: 0.2
+    epochs: 100
+    batch_size: 32
+    learning_rate: 0.001
+  
+  prophet:
+    yearly_seasonality: true
+    weekly_seasonality: true
+    daily_seasonality: false
+    seasonality_mode: "multiplicative"
+  
+  xgboost:
+    n_estimators: 100
+    max_depth: 6
+    learning_rate: 0.1
+    subsample: 0.8
+    colsample_bytree: 0.8
+
+# Training Configuration
+training:
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  walk_forward_windows: 5
+  min_train_size: 252  # 1 year of trading days
+  
+# Backtesting Configuration
+backtesting:
+  initial_capital: 100000
+  transaction_cost: 0.001  # 0.1% per trade
+  slippage: 0.0005  # 0.05% slippage
+  benchmark: "SPY"
+  
+# Evaluation Configuration
+evaluation:
+  metrics:
+    ml: ["mae", "rmse", "mape", "smape", "r2"]
+    finance: ["sharpe", "sortino", "calmar", "max_drawdown", "hit_rate"]
+  
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+# Random Seed
+seed: 42
